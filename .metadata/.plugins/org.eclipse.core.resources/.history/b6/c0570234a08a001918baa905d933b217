@@ -1,0 +1,16 @@
+package com.demo.common;
+
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ControllerAdvice
+public class MyControllerAdvice {
+
+	
+    @ExceptionHandler(.class)
+    public String handleHttpMediaTypeNotSupportedException(Exception e) {
+        return "{'errorMsg':''}";
+    }
+}

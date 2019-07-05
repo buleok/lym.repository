@@ -1,0 +1,724 @@
+package com.demo.util;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+
+
+
+public class DateUtil {
+
+    private static Logger      logger                   = LoggerFactory.getLogger(DateUtil.class);
+
+    public static final String DATE_PATTERN             = "yyyy-MM-dd";
+    public static final String DATE_PATTERN2            = "yyyy.MM.dd";
+    public static final String DATE_NUMBER_PATTERN      = "yyyyMMdd";
+    public static final String TIME_NUMBER_PATTERN      = "HHmmss";
+    public static final String TIME_SHORT_PATTERN       = "HH:mm:ss";
+    public static final String DATE_TIME_PATTERN        = "yyyyMMddHHmmss";
+    public static final String DATE_TIME_NUMBER_PATTERN = "yyyyMMddHHmmssSSSSSS";
+    public static final String TIME_PATTERN             = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_PATTERN3             = "M月d日";
+    private static String[]    week                     = new String[] { "周日", "周一", "周二", "周三",
+            "周四", "周五", "周六"                           };
+
+    /**
+     * 返回pattern格式的字符串
+     * 
+     * @param pattern
+     * @return
+     */
+    public static String getStringForPattern(String pattern) {
+
+        if (pattern == null) {
+            return null;
+        }
+        Date date = new Date();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 返回yyyy.MM.dd字符串日期
+     * @author jie.zou
+     * @return
+     * @throws Exception 
+     */
+
+    public static String getDateFormat(String date) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN2);
+        return simpleDateFormat.format(stringToDate(date));
+    }
+
+    /**
+     * 返回yyyy-MM-dd字符串日期
+     * @author jie.zou
+     * @return
+     * @throws Exception 
+     */
+
+    public static String getDateFormatString(String date) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
+        return simpleDateFormat.format(stringToDate(date));
+    }
+    
+    /**
+     * 返回yyyy-MM-dd字符串日期
+     * @author jie.zou
+     * @return
+     * @throws Exception 
+     */
+
+    public static String getDateFormatString2(String date) throws Exception {
+        
+        return date.substring(0, 4)+"-"+date.substring(4, 6)+"-"+date.substring(6, 8);
+    }
+    
+    /**
+     * 返回pattern格式的字符串日期
+     * @param date
+     * @param datePattern
+     * @param pattern
+     * @return
+     * @throws Exception
+     */
+    public static String getDateFormatString(String date,String datePattern, String pattern) throws Exception {
+        if (date == null)
+            return null;
+
+        if (date.trim().length() == 0)
+            return null;
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        
+        return simpleDateFormat.format(dateFormat.parse(date));
+    }
+    
+    /**
+     * 返回yyyy.MM.dd字符串日期
+     * @author jie.zou
+     * @return
+     * @throws Exception 
+     */
+
+    public static String getDateFormat(Date date) throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN2);
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 返回yyyyMMddHHmmss字符串
+     * @return
+     */
+    public static String getDateAndTime() {
+        return getStringForPattern(DATE_TIME_PATTERN);
+    }
+    
+    /**
+     * 返回yyyyMMddHHmmssSSSSSS字符串
+     * @return
+     */
+    private static String getDateAndTimeSS() {
+        return getStringForPattern(DATE_TIME_NUMBER_PATTERN);
+    }
+
+    /**
+     * 返回yyyyMMdd字符串
+     * @return
+     */
+    public static String getDate() {
+        return getStringForPattern(DATE_NUMBER_PATTERN);
+    }
+
+    /**
+     * 返回HHmmss字符串
+     * @return
+     */
+    public static String getTime() {
+        return getStringForPattern(TIME_NUMBER_PATTERN);
+    }
+
+    /**
+     * 由yyyyMMdd格式的字符串返回日期
+     * 
+     * @param date
+     * @return
+     */
+    public static Date stringToDate(String string) throws Exception {
+
+        if (string == null)
+            return null;
+
+        if (string.trim().length() == 0)
+            return null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+
+        return simpleDateFormat.parse(string);
+    }
+
+    /**
+     * 由yyyy-MM-dd格式的字符串返回yyyyMMdd字符串
+     * 
+     * @param date
+     * @return
+     */
+    public static String stringPatTostring(String string) throws Exception {
+
+        if (string == null)
+            return null;
+
+        if (string.trim().length() == 0)
+            return null;
+        String date = string.substring(0, 4)+string.substring(5,7)+string.substring(8, 10);
+        return date;
+    }
+    
+    /**
+     * /** 由日期返回yyyyMMdd格式的字符串
+     * 
+     * @param date
+     * @return
+     */
+    public static String dateToNumber(Date date) {
+
+        if (date == null)
+            return null;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtil.DATE_NUMBER_PATTERN);
+
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 根据终止日和相隔天数计算起始日
+     * 
+     * @param endDate
+     * @param days
+     * @return
+     */
+    public static Date getStartDateByDays(Date endDate, int days) {
+
+        Calendar calendarEndDate = Calendar.getInstance();
+        calendarEndDate.setTime(endDate);
+        calendarEndDate.add(Calendar.DAY_OF_YEAR, 0 - days);
+
+        return calendarEndDate.getTime();
+    }
+
+    /**
+     * 根据终止日和相隔天数计算起始日
+     * 
+     * @param endDate
+     * @param days
+     * @return
+     * @throws ParseException
+     */
+    public static String getStartDateByDays(String endDate, int days) throws Exception {
+        return dateToNumber(getStartDateByDays(stringToDate(endDate), days));
+    }
+
+    /**
+     * 
+     * @param bhDate yyyyMMdd
+     * @param cnt  需要提前或推后几个月,负数提前，正数推后
+     * @return
+     */
+    public static String getPreOrNextMonth(String bhDate, int cnt) {
+        if (cnt == 0) {
+            return bhDate;
+        }
+        String year = bhDate.substring(0, 4);
+        String month = bhDate.substring(4, 6);
+        String date = bhDate.substring(6, 8);
+        Calendar c = Calendar.getInstance();
+        c.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(date));
+        c.add(Calendar.MONTH, cnt);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return sdf.format(c.getTime());
+    }
+
+    /**
+     * 根据2个日期相隔的天数
+     * @param startDate
+     * @param endDate
+     * @return int
+     */
+    public static int getDays(String startDate, String endDate) {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        long start = 0;
+        long end = 0;
+        try {
+            start = df.parse(startDate).getTime();
+            end = df.parse(endDate).getTime();
+        } catch (ParseException e) {
+            logger.error("日期转换错误", e);
+        }
+
+        return new Long((end - start) / (1000 * 60 * 60 * 24)).intValue();
+    }
+    
+//    public static String getHours(String startDate, String endDate) {
+//
+//        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+//        long start = 0;
+//        long end = 0;
+//        try {
+//            start = df.parse(startDate).getTime();
+//            end = df.parse(endDate).getTime();
+//        } catch (ParseException e) {
+//            logger.error("日期转换错误", e);
+//        }
+//        
+//        return AmtUtil.divide(new BigDecimal(end - start), new BigDecimal("3600000"));
+//    }
+
+    /**
+     * 获取系统日期
+     * @return yyyy-MM-dd
+     */
+    public static String getSystemDate() {
+        return DateUtil.getStringForPattern(DATE_PATTERN);
+    }
+
+    /**
+     * 获取系统时间
+     * @return  yyyy-MM-dd HH:mm:ss
+     */
+    public static String getSystemDateTime() {
+        return DateUtil.getStringForPattern(TIME_PATTERN);
+    }
+
+    /**
+     * 
+     * 将字符串str转换成yyyy-MM-dd HH:mm:ss格式的
+     * 
+     */
+    public static String formatDate(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        if (str.trim().equals("")) {
+            return "";
+        }
+
+        return str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " "
+               + str.substring(8, 10) + ":" + str.substring(10, 12) + ":" + str.substring(12, 14);
+    }
+
+    /**
+     * 由日期返回yyyyMMddHHmmss格式的字符串
+     * @param time
+     * @return
+     */
+    public static String timeToNumber(Date time) {
+
+        if (time == null)
+            return null;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
+
+        return simpleDateFormat.format(time);
+    }
+
+    /**
+     * 由yyyyMMdd格式的字符串返回日期
+     * @param date
+     * @return
+     */
+    public static Date numberToDate(String string) throws ParseException {
+
+        if (string == null)
+            return null;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+
+        return simpleDateFormat.parse(string);
+    }
+
+    /**
+     * 根据起始日和相隔天数计算终止日
+     * @param startDate
+     * @param days
+     * @return
+     */
+    public static Date getEndDateByDays(Date startDate, int days) {
+
+        Calendar calendarStartDate = Calendar.getInstance();
+        calendarStartDate.setTime(startDate);
+        calendarStartDate.add(Calendar.DAY_OF_YEAR, days);
+
+        return calendarStartDate.getTime();
+    }
+    
+    /**
+     * 根据起始日和相隔天数计算终止日
+     * @param startDate
+     * @param days
+     * @return
+     */
+    public static String getEndDateByDays(String startDate, int days) throws Exception {
+        return dateToNumber(getEndDateByDays(stringToDate(startDate), days));
+    }
+    
+    /**
+     * @param days
+     * @param pattern   yyyyMMdd   yyyy-MM-dd
+     * @return
+     * @throws Exception
+     */
+    public static String getEndDateByTodayOfDays(int days, String pattern) throws Exception {
+        Date date = getEndDateByDays(new Date(), days);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 根据起始日和相隔月数计算终止日
+     * @param startDate
+     * @param months
+     * @return
+     */
+    public static Date getEndDateByMonths(Date startDate, int months) {
+
+        Calendar calendarStartDate = Calendar.getInstance();
+        calendarStartDate.setTime(startDate);
+        calendarStartDate.add(Calendar.MONTH, months);
+
+        return calendarStartDate.getTime();
+    }
+
+    /**
+     * 将YYYYMMDD装换成指定格式
+     * 
+     * @param dateStr
+     * @param pattern
+     * @return
+     */
+    public static String formatString(String dateStr, String pattern) {
+        if (StringUtils.isBlank(dateStr))
+            return null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(pattern);
+            Date cDate = simpleDateFormat.parse(dateStr);
+            return simpleDateFormat2.format(cDate);
+        } catch (ParseException e) {
+            logger.error("日期转换错误", e);
+            return null;
+        }
+    }
+
+    /**
+     * 移除日期中的 - 或者 /
+     * @param dateStr
+     * @return
+     */
+    public static String removeLineDateString(String dateStr) {
+        if (StringUtils.isBlank(dateStr))
+            return dateStr;
+        
+        dateStr = dateStr.replaceAll("-", "");
+        dateStr = dateStr.replaceAll("/", "");
+        return dateStr;
+    }
+
+    /**
+     * 增加日期中的 - 或者 /
+     * @param dateStr yyyyMMdd
+     * @return
+     */
+    public static String addLineDateString(String dateStr, String separator) {
+        if (dateStr == null || dateStr.length() != 8)
+            return dateStr;
+        
+        String year = dateStr.substring(0, 4);
+        String month = dateStr.substring(4, 6);
+        String day = dateStr.substring(6, 8);
+        dateStr = year + separator + month + separator + day;
+        return dateStr;
+    }
+    
+    /**
+     * 给定日期，计算该日期是周几
+     * @param date YYYYMMDD格式的日期数据
+     * @return 
+     */
+    public static String getWeekday(String date) {
+        if (date == null || date.length() != 8) {
+            return null;
+        }
+
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(DateUtil.stringToDate(date));
+        } catch (Exception ex) {
+            return null;
+        }
+
+        return week[cal.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    public static String getTime(String time, String sourcePattern, String targetPattern) {
+        try {
+            SimpleDateFormat old = new SimpleDateFormat(sourcePattern);
+            Date date = old.parse(time);
+            SimpleDateFormat formatter = new SimpleDateFormat(targetPattern);
+            return formatter.format(date);
+        } catch (Exception e) {
+            return " ";
+        }
+    }
+
+    public static String getDate(String time, String sourcePattern, String targetPattern) {
+        try {
+            SimpleDateFormat old = new SimpleDateFormat(sourcePattern);
+            Date date = old.parse(time);
+            SimpleDateFormat formatter = new SimpleDateFormat(targetPattern);
+            return formatter.format(date);
+        } catch (Exception e) {
+            return " ";
+        }
+    }
+
+    public static String monthPlus(String date, int amount) {
+        if (date == null || date.length() != 8 || amount < 0) {
+            return date;
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(df.parse(date));
+        } catch (ParseException ex) {
+            logger.info("时间转换异常！");
+            return date;
+        }
+        cal.add(Calendar.MONTH, amount);
+
+        Date time = cal.getTime();
+        return simpleDateFormat.format(time);
+    }
+
+    public static String dayPlus(String date, int amount) {
+        if (date == null || date.length() != 8 || amount < 0) {
+            return date;
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(df.parse(date));
+        } catch (ParseException ex) {
+            logger.info("时间转换异常！");
+            return date;
+        }
+        cal.add(Calendar.DAY_OF_MONTH, amount);
+
+        Date time = cal.getTime();
+        return simpleDateFormat.format(time);
+    }
+
+    public static String yearPlus(String date, int amount) {
+        if (date == null || date.length() != 8 || amount < 0) {
+            return date;
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(df.parse(date));
+        } catch (ParseException ex) {
+            logger.info("时间转换异常！");
+            return date;
+        }
+        cal.add(Calendar.YEAR, amount);
+
+        Date time = cal.getTime();
+        return simpleDateFormat.format(time);
+    }
+
+    /**
+     * 
+     * 根据结束日期(yyyy-MM-dd）获取最近相隔intervalMonth月的开始日期(yyyy-MM-dd)
+     * @param intervalMonth
+     * @return
+     */
+    public static String getStartDateM(String endDate, int intervalMonth) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat(DATE_PATTERN);
+        Date eDate = df.parse(endDate);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(eDate);
+        cal.add(Calendar.MONTH, -intervalMonth);
+        Date startDate = cal.getTime();
+        return df.format(startDate);
+    }
+
+    /**
+     * 
+     * 根据结束日期(yyyy-MM-dd）获取最近相隔intervalDay月的开始日期(yyyy-MM-dd)
+     * @param intervalDay
+     * @return
+     */
+    public static String getStartDateD(String endDate, int intervalDay) throws Exception {
+        SimpleDateFormat df = new SimpleDateFormat(DATE_PATTERN);
+        Date eDate = df.parse(endDate);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(eDate);
+        cal.add(Calendar.DAY_OF_MONTH, -intervalDay);
+        Date startDate = cal.getTime();
+        return df.format(startDate);
+    }
+
+    /**
+     * 天数加1
+     * 
+     * @param date
+     * @return
+     */
+    public static String getDayOverOne(String date) {
+        try {
+            DateFormat format = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+            Date dd = format.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dd);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            return format.format(calendar.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static String getTbsday(String tbsdy) {
+        String year = tbsdy.substring(0, 4);
+        String month = tbsdy.substring(4, 6);
+        String day = tbsdy.substring(6, 8);
+        return year + "-" + month + "-" + day;
+    }
+
+    public static String getTbsMonth(String tbsdy) {
+        String year = tbsdy.substring(0, 4);
+        String month = tbsdy.substring(4, 6);
+        return year + "-" + month;
+    }
+
+    /**
+     * 返回yyyyMMddHHmmss字符串
+     * 
+     * @param tbsday GLOBAL日期
+     * @return GLOBAL日期 +后六位时分秒
+     */
+    public static String getGlobalDateAndTime(String tbsday) {
+        String timeStamp;
+        String dateTime = getDateAndTime();
+
+        timeStamp = tbsday + dateTime.substring(8, 14);
+
+        return timeStamp;
+    }
+    
+    /**
+     * 返回yyyyMMddHHmmssss字符串
+     * 
+     * @param tbsday GLOBAL日期
+     * @return GLOBAL日期 +后六位时分秒
+     */
+    public static String getGlobalDateAndTimeSS(String tbsday) {
+        String timeStamp;
+        String dateTime = getDateAndTimeSS();
+
+        timeStamp = tbsday + dateTime.substring(8, 14);
+
+        return timeStamp;
+    }
+
+    /**
+     * 天数减1
+     * 
+     * @param date
+     * @return
+     */
+    public static String getDayReduOne(String date) {
+        try {
+            DateFormat format = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+            Date dd = format.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dd);
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            return format.format(calendar.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
+    /** 
+     * 得到月份第一天的日期 
+     * 
+     * @Methods Name getFirstDayOfMonth
+     * @return Date
+     */
+    public static String getFirstDayOfMonth(String date){
+    	try{
+    		SimpleDateFormat df = new SimpleDateFormat(DATE_PATTERN);
+            Calendar cDay = Calendar.getInstance();
+            cDay.set(Calendar.YEAR,Integer.valueOf(date.substring(0, 4)));
+        	cDay.set(Calendar.MONTH, Integer.valueOf(date.substring(4, 6))-1);
+            cDay.set(Calendar.DAY_OF_MONTH, cDay.getActualMinimum(Calendar.DAY_OF_MONTH));
+            return df.format(cDay.getTime());
+    	}catch(Exception e){
+    		return "";
+    	}
+    }
+    
+    /** 
+     * 得到月份最后一天的日期 
+     * 
+     * @Methods Name getLastDayOfMonth
+     * @return Date
+     */
+    public static String getLastDayOfMonth(String date){
+        return getLastDayOfMonth(date, DATE_PATTERN);
+    }
+    
+    public static String getLastDayOfMonth(String date, String datePattern){
+        try{
+            SimpleDateFormat df = new SimpleDateFormat(datePattern);
+            Calendar cDay = Calendar.getInstance();
+            cDay.set(Calendar.YEAR,Integer.valueOf(date.substring(0, 4)));
+            cDay.set(Calendar.MONTH, Integer.valueOf(date.substring(4, 6))-1);
+            cDay.set(Calendar.DAY_OF_MONTH, cDay.getActualMaximum(Calendar.DAY_OF_MONTH));
+            return df.format(cDay.getTime());
+        }catch(Exception e){
+            return "";
+        }
+    }
+    
+    public static String getDayByYear(int year){
+        SimpleDateFormat df = new SimpleDateFormat(DATE_NUMBER_PATTERN);
+        Date eDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(eDate);
+        cal.add(Calendar.YEAR, year);
+        Date startDate = cal.getTime();
+        return df.format(startDate);
+    }
+    
+    public static String getDayTimeByYear(int year){
+        SimpleDateFormat df = new SimpleDateFormat(DATE_TIME_PATTERN);
+        Date eDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(eDate);
+        cal.add(Calendar.YEAR, year);
+        Date startDate = cal.getTime();
+        return df.format(startDate);
+    }
+
+}

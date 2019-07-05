@@ -1,0 +1,36 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>新增</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js"></script>
+</head>
+<body>
+	<form action="#" id="loginForm">
+		<input type="text" name="userName" /> <input type="password"
+			name="password" />
+	</form>
+	<input type="button" name="" value="新增" id="add" />
+</body>
+<script type="text/javascript">
+	$(function() {
+
+		$('#add').click(function() {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/user/doadd",
+				data : $("#loginForm").serialize(),
+				type : 'POST',
+				dataType : 'text',
+				contentType:'application/x-www-form-urlencoded;charset=UTF-8',
+				success : function(XMLHttpRequest, textStatus) {
+					alert(XMLHttpRequest);
+				},
+			})
+		});
+
+	})
+</script>
+</html>

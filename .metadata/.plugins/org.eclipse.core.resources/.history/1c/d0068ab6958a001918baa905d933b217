@@ -1,0 +1,7 @@
+package com.demo.exception;
+
+import org.springframework.aop.ThrowsAdvice;
+
+public class BusinessException implements ThrowsAdvice {
+	
+}

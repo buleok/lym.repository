@@ -1,0 +1,18 @@
+package com.demo.common;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice
+public class MyControllerAdvice {
+
+	
+	/**
+     * 415 - Unsupported Media Type
+     */
+    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ServiceResponse handleHttpMediaTypeNotSupportedException(Exception e) {
+        logger.error("不支持当前媒体类型", e);
+        return ServiceResponseHandle.failed("content_type_not_supported");
+    }
+}

@@ -1,0 +1,9 @@
+com\demo\controller\DemoController001.class
+com\demo\model\UserInfo.class
+com\demo\util\DateUtil.class
+com\demo\model\UserInfoExample$Criterion.class
+com\demo\dao\UserInfoMapper.class
+com\demo\model\UserInfoExample$Criteria.class
+com\demo\model\UserInfoExample$GeneratedCriteria.class
+com\demo\model\UserInfoExample.class
+com\demo\controller\LoginController001.class

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns ="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/contexthttp://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aophttp://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!--引入配置文件方式一多个用逗号隔开 -->
+	<!--<context:property-placeholderlocation="classpath:jdbc.properties"/> -->
+	<!--引入配置文件方式二 -->
+	<!--<bean id ="config"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name ="location" value="classpath:jdbc.properties" />
+	</bean>-->
+		<!--引入多个配置文件方式 -->
+		<!--<beanid="config"class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+			<propertyname="locations"> <list> <value>classpath:jdbc.properties</value> 
+			</list> </property> </bean> -->
+
+		<!--配置dbcp数据源  -->
+		<!--
+		<bean id ="dataSource"
+			class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close">
+			<property name ="maxActive" value="${dbcp.maxActive}" />
+			<property name ="maxIdle" value="${dbcp.maxIdle}" />
+			<property name ="driverClassName"
+				value="${jdbc.driverClassName}" />
+			<property name ="url" value="${jdbc.url}" />
+			<property name ="username" value="${jdbc.username}" />
+			<property name ="password" value="${jdbc.password}" />
+			<property name ="maxWait" value="1000" />
+			<property name ="removeAbandoned" value="true" />
+			<property name ="removeAbandonedTimeout" value="60" />
+			<property name ="defaultAutoCommit" value="true" />
+		</bean> -->
+			<!--MyBatisSQLSessionFactory -->
+			<!--<bean id = "sqlSessionFactory"
+				class="org.mybatis.spring.SqlSessionFactoryBean">
+				<property name = dataSource" ref="dataSource" />
+			</bean>
+				<bean id = "sqlSession"
+					class="org.mybatis.spring.SqlSessionTemplate">
+					<constructor-argindex =
+						ref="sqlSessionFactory" />
+				</bean>-->
+					<!--MybatisMapperScannerConfigurer自动扫描将Mapper接口生成代理注入到Spring -->
+					
+					<!--
+					<bean id = "mapperScanner"
+						class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+						<property name = "basePackage"
+							value="com.lk.springmvc.demo.pojo,com.lk.springmvc.demo.dao" />
+						<property name = "sqlSessionFactoryBeanName"
+							value="sqlSessionFactory" />
+					</bean>-->
+						<!--事务配置 -->
+						<!--<bean id ="transactionManager"
+							class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+							<property name = "dataSource" ref="dataSource" />
+						</bean>
+							<tx:annotation-driven transaction-manager = "transactionManager" />-->
+							
+							<!-- <context:component-scan base-package = "com.lk.springmvc.demo.service.impl" />-->
+							</beans>
